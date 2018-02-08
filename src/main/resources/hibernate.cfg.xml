@@ -14,5 +14,7 @@
         <property name="show_sql">true</property>
         
         <mapping class="net.service.testcrossfitresult.model.WorkoutType"/>
+        <mapping class="net.service.testcrossfitresult.model.Exercises"/>
+        <mapping class="net.service.testcrossfitresult.model.Results"/>
     </session-factory>
 </hibernate-configuration>

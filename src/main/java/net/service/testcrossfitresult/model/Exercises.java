@@ -1,3 +1,4 @@
+
 package net.service.testcrossfitresult.model;
 
 import java.io.Serializable;
@@ -13,24 +14,24 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "workoutType")
-public class WorkoutType implements Serializable {
-
+@Table(name = "exercises")
+public class Exercises implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     
-    @Column(name = "name",length = 50)
+    @Column(name = "name", length = 50)
     private String name;
     
-    @Column(name="description", length = 150)
-    private String describtion;
-
-    @OneToMany(mappedBy = "workoutType", cascade = CascadeType.ALL)
-    private Set<Results> resultsSet;
+    @Column(name = "description", length = 150)
+    private String description;
     
-    public WorkoutType() {
+    @OneToMany(mappedBy = "workoutExercise", cascade = CascadeType.ALL)
+    private Set<Results> resultsSet;
+
+    public Exercises() {
     }
 
     public int getId() {
@@ -49,12 +50,12 @@ public class WorkoutType implements Serializable {
         this.name = name;
     }
 
-    public String getDescribtion() {
-        return describtion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribtion(String describtion) {
-        this.describtion = describtion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<Results> getResultsSet() {
@@ -64,15 +65,14 @@ public class WorkoutType implements Serializable {
     public void setResultsSet(Set<Results> resultsSet) {
         this.resultsSet = resultsSet;
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + this.id;
-        hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + Objects.hashCode(this.describtion);
+        int hash = 5;
+        hash = 37 * hash + this.id;
+        hash = 37 * hash + Objects.hashCode(this.name);
+        hash = 37 * hash + Objects.hashCode(this.description);
+
         return hash;
     }
 
@@ -87,18 +87,23 @@ public class WorkoutType implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final WorkoutType other = (WorkoutType) obj;
+        final Exercises other = (Exercises) obj;
         if (this.id != other.id) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.describtion, other.describtion)) {
+        if (!Objects.equals(this.description, other.description)) {
             return false;
         }
+        
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Exercises{" + "id=" + id + ", name=" + name + ", description=" + description + '}';
+    }    
     
 }
