@@ -2,6 +2,7 @@ package net.service.testcrossfitresult.helper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,14 @@ public class JSONHelper<T> {
 
     public JSONHelper(Class<T> type) {
         this.type = type;
+        gs = new GenericService(type);
         gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(Results.class, new ResultsSerializer())
                 .registerTypeAdapter(WorkoutType.class, new WorkoutSerializer())
                 .registerTypeAdapter(Exercises.class, new ExercisesSerializer())
-                .registerTypeAdapter(Results.class, new ResulrDeseriallizer())
-                .registerTypeAdapter(WorkoutType.class, new WorkoutDeserializer())
-                .registerTypeAdapter(Exercises.class, new ExercisesDeserializer())
+                .registerTypeAdapter(Results.class, new ResultsDeseriallizer())
                 .create();
     }
     
@@ -36,7 +36,6 @@ public class JSONHelper<T> {
 
     public String getEntityAll() {
 
-        gs = new GenericService(type);
         List<T> resultsList = null;
 
         try {
@@ -50,7 +49,6 @@ public class JSONHelper<T> {
     public String getEntityById(int id) {
         T entity = null;
         try {
-            gs = new GenericService(type);
             entity = (T) gs.findById(id);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,14 +58,21 @@ public class JSONHelper<T> {
     
     public void createEntity(String data) {
         try {
-            gs = new GenericService(type);
-            T entity = (T) gson.fromJson(data, type);
+            T entity = gson.fromJson(data, type);
             gs.add(entity);
-        } catch (SQLException e) {
+        } catch (JsonSyntaxException | SQLException e) {
             e.printStackTrace();
-            
         }
-        
+    }
+    
+    public void updateEntity(String data) {
+        try {
+            T entity = gson.fromJson(data, type);
+            gs.update(entity);
+        } catch (JsonSyntaxException | SQLException e) {
+            e.printStackTrace();
+        }
+    
     }
 
 }

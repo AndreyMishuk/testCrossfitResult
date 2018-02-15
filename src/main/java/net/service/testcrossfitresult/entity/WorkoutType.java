@@ -1,5 +1,6 @@
-package net.service.testcrossfitresult.model;
+package net.service.testcrossfitresult.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -25,8 +26,9 @@ public class WorkoutType implements Serializable {
     private String name;
     
     @Column(name="description", length = 150)
-    private String describtion;
+    private String description;
 
+    @Expose
     @OneToMany(mappedBy = "workoutType", cascade = CascadeType.ALL)
     private Set<Results> resultsSet;
     
@@ -49,12 +51,12 @@ public class WorkoutType implements Serializable {
         this.name = name;
     }
 
-    public String getDescribtion() {
-        return describtion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribtion(String describtion) {
-        this.describtion = describtion;
+    public void setDescription(String describtion) {
+        this.description = describtion;
     }
 
     public Set<Results> getResultsSet() {
@@ -72,7 +74,7 @@ public class WorkoutType implements Serializable {
         int hash = 7;
         hash = 47 * hash + this.id;
         hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + Objects.hashCode(this.describtion);
+        hash = 47 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
@@ -94,11 +96,18 @@ public class WorkoutType implements Serializable {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.describtion, other.describtion)) {
+        if (!Objects.equals(this.description, other.description)) {
             return false;
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "WorkoutType{" + "id=" + id + ", name=" + name + ", describtion=" + description + '}';
+    }
+    
+    
 
     
 }

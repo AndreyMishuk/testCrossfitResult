@@ -1,6 +1,7 @@
 
-package net.service.testcrossfitresult.model;
+package net.service.testcrossfitresult.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class Exercises implements Serializable {
     @Column(name = "description", length = 150)
     private String description;
     
+    @Expose
     @OneToMany(mappedBy = "workoutExercise", cascade = CascadeType.ALL)
     private Set<Results> resultsSet;
 

@@ -13,7 +13,7 @@ import net.service.testcrossfitresult.entity.Exercises;
 import net.service.testcrossfitresult.entity.Results;
 import net.service.testcrossfitresult.entity.WorkoutType;
 
-public class ResulrDeseriallizer implements JsonDeserializer<Results> {
+public class ResultsDeseriallizer implements JsonDeserializer<Results> {
 
     @Override
     public Results deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
@@ -23,7 +23,12 @@ public class ResulrDeseriallizer implements JsonDeserializer<Results> {
         SimpleDateFormat fDate = new SimpleDateFormat("dd.MM.yyyy");
         Date parsDate = null;
 
-//        results.setId(json.get("id").getAsInt());
+
+        if(json.get("id").isJsonPrimitive()) {
+            results.setId(json.get("id").getAsInt());
+        }
+        
+        
         results.setComment(json.get("comment").getAsString());
         results.setResult(json.get("result").getAsString());
         results.setUserId(json.get("userId").getAsInt());

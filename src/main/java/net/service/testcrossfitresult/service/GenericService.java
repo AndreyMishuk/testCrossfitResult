@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
 import net.service.testcrossfitresult.dao.IGenericDao;
-import net.service.testcrossfitresult.util.HIbernateUtil;
+import net.service.testcrossfitresult.entity.WorkoutType;
+import net.service.testcrossfitresult.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
 
 public class GenericService<T> implements IGenericDao<T> {
 
@@ -21,7 +24,7 @@ public class GenericService<T> implements IGenericDao<T> {
     public void add(T entity) throws SQLException {
         Session session = null;
         try {
-            session = HIbernateUtil.sessionFactory.openSession();
+            session = HibernateUtil.sessionFactory.openSession();
             session.beginTransaction();
             session.save(entity);
             session.getTransaction().commit();
@@ -40,7 +43,7 @@ public class GenericService<T> implements IGenericDao<T> {
     public void update(T entity) throws SQLException {
         Session session = null;
         try {
-            session = HIbernateUtil.getSessionFactory().openSession();
+            session = HibernateUtil.getSessionFactrory().openSession();
             session.beginTransaction();
             session.update(entity);
             session.getTransaction().commit();
@@ -59,10 +62,13 @@ public class GenericService<T> implements IGenericDao<T> {
         Session session = null;
         T value = null;
         try {
-            session = HIbernateUtil.getSessionFactory().openSession();
+            session = HibernateUtil.getSessionFactrory().openSession();
+            session.beginTransaction();
             value = session.get(type, id);
+            session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
+            session.getTransaction().rollback();
         } finally {
            if ((session != null) && session.isOpen()) {
                 session.close();
@@ -76,7 +82,7 @@ public class GenericService<T> implements IGenericDao<T> {
         Session session = null;
         List<T> values = new ArrayList<>();
         try {
-            session = HIbernateUtil.sessionFactory.openSession();
+            session = HibernateUtil.sessionFactory.openSession();
             session.beginTransaction();
             CriteriaQuery cq = session.getCriteriaBuilder().createQuery(type);
             cq.from(type);
@@ -99,7 +105,7 @@ public class GenericService<T> implements IGenericDao<T> {
     public void remove(T entity) throws SQLException {
         Session session = null;
         try {
-            session = HIbernateUtil.sessionFactory.openSession();
+            session = HibernateUtil.sessionFactory.openSession();
             session.beginTransaction();
             session.delete(entity);
             session.getTransaction().commit();
@@ -112,5 +118,5 @@ public class GenericService<T> implements IGenericDao<T> {
             }
         }
     }
-
+    
 }

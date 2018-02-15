@@ -1,10 +1,8 @@
-
-package net.service.testcrossfitresult.model;
+package net.service.testcrossfitresult.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,40 +13,44 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 @Table(name = "results")
 public class Results implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    
+
     @Column(name = "userId", unique = true)
     private int userId;
-    
+
     @Column(name = "workoutDate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date workoutDate;
-    
+
     @Column(name = "result", length = 255)
     private String result;
-    
+
     @Column(name = "comment", length = 255)
     private String comment;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "workoutType", nullable = false)
     private WorkoutType workoutType;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "workoutExercise", nullable = false)
     private Exercises workoutExercise;
 
     public Results() {
     }
 
+    @XmlElement
     public int getId() {
         return id;
     }
@@ -57,6 +59,7 @@ public class Results implements Serializable {
         this.id = id;
     }
 
+    @XmlElement
     public int getUserId() {
         return userId;
     }
@@ -65,6 +68,7 @@ public class Results implements Serializable {
         this.userId = userId;
     }
 
+    @XmlElement
     public Date getWorkoutDate() {
         return workoutDate;
     }
@@ -73,6 +77,7 @@ public class Results implements Serializable {
         this.workoutDate = workoutDate;
     }
 
+    @XmlElement
     public String getResult() {
         return result;
     }
@@ -81,6 +86,7 @@ public class Results implements Serializable {
         this.result = result;
     }
 
+    @XmlElement
     public String getComment() {
         return comment;
     }
@@ -89,6 +95,7 @@ public class Results implements Serializable {
         this.comment = comment;
     }
 
+    @XmlElement
     public WorkoutType getWorkoutType() {
         return workoutType;
     }
@@ -97,6 +104,7 @@ public class Results implements Serializable {
         this.workoutType = workoutType;
     }
 
+    @XmlElement
     public Exercises getExercises() {
         return workoutExercise;
     }
@@ -156,11 +164,9 @@ public class Results implements Serializable {
 
     @Override
     public String toString() {
-        return "Results{" + "id=" + id + ", userId=" + userId + ", workoutDate=" + workoutDate +
-                ", result=" + result + ", comment=" + comment + ", workoutType=" + workoutType +
-                ", exercises=" + workoutExercise + '}';
+        return "Results{" + "id=" + id + ", userId=" + userId + ", workoutDate=" + workoutDate
+                + ", result=" + result + ", comment=" + comment + ", workoutType=" + workoutType
+                + ", exercises=" + workoutExercise + '}';
     }
-    
-    
-    
+
 }
